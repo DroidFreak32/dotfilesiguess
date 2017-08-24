@@ -96,6 +96,12 @@ workspace_auto_back_and_forth yes
 bindsym $mod+b workspace back_and_forth
 bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_and_forth
 
+
+#navigate workspaces next / previous
+bindsym $mod+Ctrl+Right workspace next
+bindsym $mod+Ctrl+Left workspace prev
+
+
 # Workspace names
 # to display names or symbols instead of plain workspace numbers you can use
 # something like: set $ws1 1:mail
@@ -153,7 +159,7 @@ assign [class="Amarok"] $workspace10
 
 
 # reload the configuration file
-bindsym $mod+Shift+c reload
+# bindsym $mod+Shift+c reload
 
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
@@ -187,34 +193,6 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-set $bg-color            #212121
-set $inactive-bg-color   #2f343f
-set $text-color          #f3f4f5
-set $inactive-text-color #f2f2f2
-set $urgent-bg-color     #E53935
-set $red-color           #CA5F5D
-
-# window colors
-#                       border              background         text                 indicator
-client.unfocused          $bg-color           $bg-color          $text-color          #BF696E
-client.focused        $inactive-bg-color $inactive-bg-color $inactive-text-color #BF696E
-client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-color #BF696E
-client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #BF696E
-
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-bar {
-		status_command SCRIPT_DIR=/home/horcrux/.config/i3/blocklets/contrib i3blocks -c /home/horcrux/.config/i3/i3blocks2.conf
-		colors {
-				background $bg-color
-				separator #757575
-				#                  border               background              text
-				focused_workspace  $bg-color            $red-color              $text-color
-				inactive_workspace $bg-color            $bg-color               $inactive-text-color
-				urgent_workspace   $urgent-bg-color     $urgent-bg-color        $text-color
-		}
-}
-
 #Shutdown Options
 bindsym Control+Mod1+Delete exec $SCRIPT_DIR/shutdown_menu/shutdown_menu
 
@@ -223,10 +201,16 @@ bindsym --release Print exec scrot 'Screenshot_%Y%m%d_%H%M%S.png' -e 'mv $f /hom
 
 #locks screen
 #OLD: bindsym $mod+shift+x exec i3lock --color "$bg-color"
-bindsym $mod+shift+x exec /home/horcrux//executable_scripts/i3lock-extra -s -b -g -o "/home/horcrux//Pictures/lock.png"
+bindsym $mod+shift+x exec /home/horcrux/executable_scripts/i3lock-extra -s -b -g -o "/home/horcrux/riceing/lock2.png"
 
-#Sets wallpaper
-exec_always feh --bg-scale "/home/horcrux//Pictures/wallpaper.png"
+# Conky test
+bindsym $mod+shift+c exec /home/horcrux/riceing/Conkies/conky-simple/start_conky.sh
+
+# launch categorized menu
+bindsym $mod+z exec --no-startup-id morc_menu
+
+# #Sets wallpaper
+# exec_always feh --bg-scale "/home/horcrux//Pictures/wallpaper.png"
 
 # start dmenu (a program launcher)
 # bindsym $mod+d exec dmenu_run
@@ -238,6 +222,8 @@ exec_always feh --bg-scale "/home/horcrux//Pictures/wallpaper.png"
 bindsym $mod+d exec /home/horcrux/executable_scripts/rofi.sh
 
 bindsym $mod+shift+d exec /home/horcrux/executable_scripts/roficlip.sh
+
+bindsym $mod+shift+w exec /home/horcrux/executable_scripts/walp.sh
 
 #Transparent-ish background. -f for fade effect
 exec_always compton -f
@@ -274,22 +260,78 @@ for_window [title="Account Details*"] floating enable
 # LAPTOP ONLY
 #
 # Pulse Audio controls
-# bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
-# bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
-# bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 
-# # Sreen brightness controls
-# bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
-# bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+# Screen brightness controls
+bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness up'"
+bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
 
 # # Touchpad controls
 # bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touchpad
 
 # # Media player controls
-# bindsym XF86AudioPlay exec playerctl play
-# bindsym XF86AudioPause exec playerctl pause
-# bindsym XF86AudioNext exec playerctl next
-# bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioPlay exec playerctl play
+bindsym XF86AudioPause exec playerctl pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
 
 # #TouchPad
 # exec --no-startup-id synclient VertEdgeScroll=1 TapButton1=1 TapButton2=1 TapButton3=1
+
+# Rofi clipboard
+exec --no-startup-id greenclip daemon
+
+# The text on screen
+exec --no-startup-id start_conky_grey
+
+# Wallpaper
+# exec --no-startup-id nitrogen --restore; sleep 1; 
+
+
+exec --no-startup-id compton -b
+
+
+# Set shut down, restart and locking features
+bindsym $mod+shift+p mode "$mode_system"
+set $mode_system (e)xit, switch_(u)ser, (h)ibernate, (r)eboot, (Shift+s)hutdown
+mode "$mode_system" {
+    bindsym u exec --no-startup-id i3exit switch_user, mode "default"
+    bindsym e exec --no-startup-id i3exit logout, mode "default"
+    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
+    bindsym r exec --no-startup-id i3exit reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
+
+    # exit system mode: "Enter" or "Escape"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+set $bg-color            #212121
+set $inactive-bg-color   #2f343f
+set $text-color          #f3f4f5
+set $inactive-text-color #f2f2f2
+set $urgent-bg-color     #E53935
+set $red-color           #CA5F5D
+
+# window colors
+#                       border              background         text                 indicator
+client.unfocused          $bg-color           $bg-color          $text-color          #BF696E
+client.focused        $inactive-bg-color $inactive-bg-color $inactive-text-color #BF696E
+client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-color #BF696E
+client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #BF696E
+
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+bar {
+		status_command SCRIPT_DIR=/home/horcrux/.config/i3/blocklets/contrib i3blocks -c /home/horcrux/.config/i3/i3blocks2.conf
+		colors {
+				background $bg-color
+				separator #757575
+				#                  border               background              text
+				focused_workspace  $bg-color            $red-color              $text-color
+				inactive_workspace $bg-color            $bg-color               $inactive-text-color
+				urgent_workspace   $urgent-bg-color     $urgent-bg-color        $text-color
+		}
+}
