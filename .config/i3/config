@@ -72,7 +72,7 @@ font pango:Ubuntu Mono 12
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec gnome-terminal
+bindsym $mod+Return exec konsole
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -98,6 +98,11 @@ bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
 ################################################################################################
 
 # Screen brightness controls
+ # increase screen brightness with notification
+bindsym XF86MonBrightnessUp exec "light -A 10; notify-send 'brightness up'"
+ # decrease screen brightness with notification
+bindsym XF86MonBrightnessDown exec "light -U 10; notify-send 'brightness down'"
+
 # bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness up'"
 # bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
 
@@ -353,14 +358,6 @@ exec_always --no-startup-id fix_xcursor
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
-
-# Screen brightness controls
- # increase screen brightness with notification
-bindsym XF86MonBrightnessUp exec "light -A 10; notify-send 'brightness up'"
- # decrease screen brightness with notification
-bindsym XF86MonBrightnessDown exec "light -U 10; notify-send 'brightness down'"
-# bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness up'"
-# bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
 
 # # Touchpad controls
 # bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touchpad
