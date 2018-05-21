@@ -42,13 +42,14 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = fixed:pixelsize=10;1
-font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-2 = siji:pixelsize=10;1
+font-0 = Ubuntu Mono:pixelsize=12;0
+font-1 = FontAwesome:style=Regular:pixelsize=12;1
+font-2 = unifont:fontformat=truetype:size=8:antialias=false;0
+font-3 = siji:pixelsize=10;1
 
 modules-left = i3
-modules-center = date
-modules-right = filesystem xbacklight pulseaudio memory cpu wlan eth battery temperature powermenu
+modules-center =  powermenu
+modules-right = filesystem xbacklight pulseaudio memory cpu wlan eth battery temperature date
 
 tray-position = right
 tray-padding = 2
@@ -131,7 +132,7 @@ label-mode-foreground = #000
 label-mode-background = ${colors.primary}
 
 ; focused = Active workspace on focused monitor
-label-focused = %index%
+label-focused = %icon%
 label-focused-background = ${module/bspwm.label-focused-background}
 label-focused-underline = ${module/bspwm.label-focused-underline}
 label-focused-padding = ${module/bspwm.label-focused-padding}
@@ -154,6 +155,17 @@ label-urgent-padding = ${module/bspwm.label-urgent-padding}
 ; Separator in between workspaces
 ; label-separator = |
 
+; workspace icons
+ws-icon-0 = "1;1: "
+ws-icon-1 = "2;2: "
+ws-icon-2 = "3;3: "
+ws-icon-3 = "4;4: "
+ws-icon-4 = "5;5"
+ws-icon-5 = "6;6"
+ws-icon-6 = "7;7"
+ws-icon-7 = "8;8: "
+ws-icon-8 = "9;9: "
+ws-icon-9 = "10;10: "
 
 [module/mpd]
 type = internal/mpd
