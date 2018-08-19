@@ -64,3 +64,4 @@ get_session(){
 }
 export XDG_CURRENT_DESKTOP=KDE
 exec $(get_session)
+xset r rate 600 25
