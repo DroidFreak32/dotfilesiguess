@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# yay -S python-pillow python-argparse python-click python-wsgiref
+# https://github.com/Kareeeeem/jpglitch
+
+# Take blurred screenshot of current screen
+xwobf /tmp/lock.png
+convert /tmp/lock.png /tmp/lock.jpg
+jpglitch -a 50 -s 50 -i 10 /tmp/lock.jpg
+
+# Use the taken screenshot as bg , grayscale it and add an overlay with i3lock-extra
+i3lock-extra -g -i /tmp/lock_glitched.png -o "/home/horcrux/Pictures/test.png"

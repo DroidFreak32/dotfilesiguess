@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# Take blurred screenshot of current screen
+# sleep 1 && scrot /tmp/lock.png
+
+# Use the taken screenshot as bg , grayscale it and add an overlay with i3lock-extra
+
+letterEnteredColor="#d23c3dff"
+letterRemovedColor="#d23c3dff"
+passwordCorrect="#00000000"
+passwordIncorrect="#d23c3dff"
+background="#00000000"
+foreground="#ffffffff"
+accent="#d23c3dff"
+
+i3lock-extra -s -g -p --paint -i /tmp/lock.png -o "$HOME/.config/i3/lock.png" -- -k --datepos="x+43:h-45" --date-align 1 --datecolor="$accent" --datestr "%A, %B %d" --timepos="x+43:h-70" --time-align 1 --timecolor="$accent" --insidecolor=$background --ringcolor=$foreground --line-uses-inside --keyhlcolor=$letterEnteredColor --bshlcolor=$letterRemovedColor --separatorcolor=$background --insidevercolor=$passwordCorrect --insidewrongcolor=$passwordIncorrect --ringvercolor=$foreground --ringwrongcolor="$foreground" --ring-width=4 --veriftext="" --wrongtext="GTFO!" --verifcolor="$foreground"  --noinputtext="Empty" 
