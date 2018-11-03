@@ -5,6 +5,19 @@
 
 # Use the taken screenshot as bg , grayscale it and add an overlay with i3lock-extra
 
+
+rectangles=" "
+SR=$(xrandr --query | grep ' connected' | grep -o '[0-9][0-9]*x[0-9][0-9]*[^ ]*')
+for RES in $SR; do
+	SRA=(${RES//[x+]/ })
+	CX=$((${SRA[2]} + 25))
+	CY=$((${SRA[1]} - 30))
+	rectangles+="rectangle $CX,$CY $((CX+300)),$((CY-80)) "
+done
+
+scrot /tmp/lock.png
+# convert /tmp/lock.png -draw "fill rgba(0, 0, 0, 0.4) $rectangles" /tmp/lock2.png
+
 letterEnteredColor="#d23c3dff"
 letterRemovedColor="#d23c3dff"
 passwordCorrect="#00000000"
@@ -13,4 +26,4 @@ background="#00000000"
 foreground="#ffffffff"
 accent="#d23c3dff"
 
-i3lock-extra -s -g -p --paint -i /tmp/lock.png -o "$HOME/.config/i3/lock.png" -- -k --datepos="x+43:h-45" --date-align 1 --datecolor="$accent" --datestr "%A, %B %d" --timepos="x+43:h-70" --time-align 1 --timecolor="$accent" --insidecolor=$background --ringcolor=$foreground --line-uses-inside --keyhlcolor=$letterEnteredColor --bshlcolor=$letterRemovedColor --separatorcolor=$background --insidevercolor=$passwordCorrect --insidewrongcolor=$passwordIncorrect --ringvercolor=$foreground --ringwrongcolor="$foreground" --ring-width=4 --veriftext="" --wrongtext="GTFO!" --verifcolor="$foreground"  --noinputtext="Empty" 
+i3lock-extra -s -g -p --paint -o "$HOME/.config/i3/lock.png" -- -k --datepos="x+43:h-45" --date-align 1 --datecolor="$accent" --datestr "%A, %B %d" --timepos="x+43:h-70" --time-align 1 --timecolor="$accent" --insidecolor=$background --ringcolor=$foreground --line-uses-inside --keyhlcolor=$letterEnteredColor --bshlcolor=$letterRemovedColor --separatorcolor=$background --insidevercolor=$passwordCorrect --insidewrongcolor=$passwordIncorrect --ringvercolor=$foreground --ringwrongcolor="$foreground" --ring-width=4 --veriftext="" --wrongtext="GTFO!" --verifcolor="$foreground"  --noinputtext="Empty" 
