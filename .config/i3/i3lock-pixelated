@@ -35,7 +35,7 @@ lock(){
     foreground="#ffffffff"
     accent="#d23c3dff"
 
-    i3lock-extra -s -g -p --paint -o "$HOME/.config/i3/lock.png" -- -k \
+    i3lock-extra --unsecure -s -g -p --paint -o "$HOME/.config/i3/lock.png" -- -t -k \
         --datepos="x+43:h-45" \--date-align 1 --datecolor="$accent" --datestr "%A, %B %d" \
         --timepos="x+43:h-70" --time-align 1 --timecolor="$accent" \
         --insidecolor=$background --ringcolor=$foreground --line-uses-inside \
@@ -43,7 +43,6 @@ lock(){
         --insidevercolor=$passwordCorrect --insidewrongcolor=$passwordIncorrect \
         --ringvercolor=$foreground --ringwrongcolor="$foreground" --ring-width=4 \
         --veriftext="" --wrongtext="GTFO!" --verifcolor="$foreground"  --noinputtext="Empty"
-
     postlock
 }
 
@@ -72,14 +71,7 @@ done
 
 
 # Activate lockscreen
-if [[ $runlock ]]; then
-    if [[ $runsuspend ]]; then
-        systemctl suspend;
-    else
-        lock
-        exit 0
-    fi
-else
-    exit 0
-fi
+[[ $runlock ]] && lock && \
+	{ [[ $runsuspend ]] && systemctl suspend; }
 
+exit 0
