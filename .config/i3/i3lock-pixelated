@@ -73,10 +73,10 @@ done
 
 # Activate lockscreen
 if [[ $runlock ]]; then
-    lock
     if [[ $runsuspend ]]; then
         systemctl suspend;
     else
+        lock
         exit 0
     fi
 else
