@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # yay -S python-pillow python-argparse python-click python-wsgiref
 # https://github.com/Kareeeeem/jpglitch
+# https://github.com/glindste/xwobf
 
 # Take blurred screenshot of current screen
 xwobf /tmp/lock.png

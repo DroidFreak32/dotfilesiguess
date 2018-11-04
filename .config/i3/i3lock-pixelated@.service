@@ -1,0 +1,13 @@
+[Unit]
+Description = Lock screen when going to sleep/suspend
+
+[Service]
+User=%I
+Type=simple
+Environment=DISPLAY=:0
+ExecStart=/home/horcrux/executable_scripts/i3lock-pixelated
+TimeoutSec=infinity
+
+[Install]
+WantedBy=sleep.target
+WantedBy=suspend.target
