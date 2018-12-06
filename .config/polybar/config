@@ -49,7 +49,7 @@ font-3 = "Font Awesome 5 Free:style=Solid:size=10:antialias=true;1"
 
 modules-left = eth xwindow player-mpris-tail
 modules-center = i3
-modules-right = filesystem pulseaudio-tail memory cpu temperature date
+modules-right = filesystem memory cpu temperature date
 
 tray-position = right
 tray-padding = 0
