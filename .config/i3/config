@@ -66,10 +66,10 @@ bindsym $mod+z exec --no-startup-id morc_menu
 ################################################################################################
 
 exec --no-startup-id volumeicon
-bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
-#exec --no-startup-id pulseaudio
+# bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
+# exec --no-startup-id pulseaudio
 #exec --no-startup-id pa-applet
-#bindsym $mod+Ctrl+m exec pavucontrol
+bindsym $mod+Ctrl+m exec pavucontrol
 
 ################################################################################################
 
@@ -82,7 +82,7 @@ bindsym $mod+Shift+F4 exec kdesu pcmanfm
 bindsym $mod+F9 exec terminal -e 'mocp'
 bindsym $mod+t exec --no-startup-id pkill compton
 bindsym $mod+Ctrl+t exec --no-startup-id compton -b
-bindsym $mod+Shift+d --release exec "killall dunst; exec notify-send 'restart dunst'"
+bindsym $mod+Shift+d --release exec "killall dunst; dunst; exec notify-send 'restart dunst'"
 bindsym Print exec --no-startup-id i3-scrot
 bindsym $mod+Print --release exec --no-startup-id i3-scrot -w
 bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s
@@ -220,12 +220,12 @@ assign [class="Amarok"] $ws9
 assign [class="TelegramDesktop"] $ws10
 
 # Open specific applications in floating mode
-for_window [title="alsamixer"] floating enable border none
+for_window [title="alsamixer"] floating enable border none resize set width 1366
 for_window [class="Calamares"] floating enable border normal
 for_window [class="Clipgrab"] floating enable
 for_window [title="File Transfer*"] floating enable
 for_window [class="Galculator"] floating enable border pixel 1
-for_window [class="GParted"] floating enable border normal
+for_window [class="GParted"] floating enable border pixel 1
 for_window [title="i3_help"] floating enable sticky enable border normal
 for_window [class="Lightdm-gtk-greeter-settings"] floating enable
 for_window [class="Lxappearance"] floating enable sticky enable border normal
@@ -251,6 +251,9 @@ for_window [class="Xfburn"] floating enable
 
 # switch to workspace with urgent window automatically
 for_window [urgent=latest] focus
+
+# open all floating windows at the center
+for_window [floating] move absolute position center
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -316,12 +319,13 @@ bindsym $mod+x exec i3lock-pixelated
 # bindsym $mod+x exec --no-startup-id blurlock
 
 # Autostart applications
+exec_always --no-startup-id /usr/lib/mate-notification-daemon/mate-notification-daemon
 exec --no-startup-id /usr/lib/polkit-kde-authentication-agent-1
 exec --no-startup-id nitrogen --restore; sleep 1; compton -b
 exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id pamac-tray
-exec --no-startup-id parcellite
+exec --no-startup-id clipit
 # exec --no-startup-id blueman-applet
 # exec_always --no-startup-id sbxkb
 exec --no-startup-id start_conky_maia
