@@ -83,9 +83,9 @@ bindsym $mod+F9 exec terminal -e 'mocp'
 bindsym $mod+t exec --no-startup-id pkill compton
 bindsym $mod+Ctrl+t exec --no-startup-id compton -b
 bindsym $mod+Shift+d --release exec "killall dunst; dunst; exec notify-send 'restart dunst'"
-bindsym Print exec --no-startup-id i3-scrot
+bindsym Print exec --no-startup-id flameshot full -c -p "$HOME/Pictures/Screenshots" # -r > "$HOME/Pictures/Screenshots/Screenshot_$(date +%Y-%m-%d_%H%M).png"
 bindsym $mod+Print --release exec --no-startup-id i3-scrot -w
-bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s
+bindsym $mod+Shift+Print --release exec --no-startup-id flameshot gui
 bindsym $mod+Shift+h exec xdg-open /usr/share/doc/manjaro/i3_help.pdf
 bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
 
@@ -313,7 +313,7 @@ mode "resize" {
 # https://github.com/pavanjadhaw/betterlockscreen
 # bindsym $mod+x exec /home/horcrux/executable_scripts/i3lock-extra -s -b -g -o "/home/horcrux/Pictures/test.png"
 # bindsym $mod+x exec i3lock-glitch
-bindsym $mod+x exec i3lock-pixelated
+bindsym $mod+x exec /home/horcrux/.config/i3/i3lock-pixelated -l
 
 
 # bindsym $mod+x exec --no-startup-id blurlock
@@ -330,7 +330,7 @@ exec --no-startup-id clipit
 # exec_always --no-startup-id sbxkb
 exec --no-startup-id start_conky_maia
 # exec --no-startup-id start_conky_green
-exec --no-startup-id xautolock -time 10 -locker i3lock-pixelated
+exec --no-startup-id xautolock -time 10 -locker i3lock-pixelated -l
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
 
