@@ -1,2 +1,2 @@
 #!/bin/bash
-yay -S nitrogen lxappearance brandr pacli compton playerctl mpd i3lock-color
+yay -S nitrogen lxappearance brandr pacli compton playerctl mpd i3lock-color rofi rofi-greenclip nerd-fonts-ubuntu-mono flameshot polkit-kde polkit-kde-agent clipit xfce4-power-manager pamac-tray nm-applet kcalc light ttf-ubuntu-font-family
