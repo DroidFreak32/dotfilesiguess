@@ -236,7 +236,7 @@ class Player:
             if not len(length):
                 length = str(_getProperty(self._metadata, 'mpris:length', ''))
             if len(length):
-                self.metadata['length'] = int(length)
+                self.metadata['length'] = float(length)
             else:
                 self.metadata['length'] = 0
             self.metadata['genre']    = _getProperty(self._metadata, 'xesam:genre', '')
