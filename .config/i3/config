@@ -16,7 +16,7 @@ set $mod Mod4
 # workspace_layout tabbed <stacking|tabbed>
 
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
-default_border pixel 1
+default_border none
 default_floating_border none
 
 # Hide borders
@@ -54,8 +54,8 @@ bindsym $mod+Shift+q kill
 
 # start program launcher
 # bindsym $mod+d exec --no-startup-id dmenu_recency
-# bindsym $mod+d exec /home/horcrux/executable_scripts/rofi.sh
-# bindsym $mod+shift+d exec /home/horcrux/executable_scripts/roficlip.sh
+# bindsym $mod+d exec $HOME/executable_scripts/rofi.sh
+# bindsym $mod+shift+d exec $HOME/executable_scripts/roficlip.sh
 bindsym $mod+d exec --no-startup-id rofi -show run
 
 # launch categorized menu
@@ -311,9 +311,9 @@ mode "resize" {
 # https://github.com/edlanglois/i3lock-extra
 # https://github.com/Kareeeeem/jpglitch
 # https://github.com/pavanjadhaw/betterlockscreen
-# bindsym $mod+x exec /home/horcrux/executable_scripts/i3lock-extra -s -b -g -o "/home/horcrux/Pictures/test.png"
+# bindsym $mod+x exec $HOME/executable_scripts/i3lock-extra -s -b -g -o "$HOME/Pictures/test.png"
 # bindsym $mod+x exec i3lock-glitch
-bindsym $mod+x exec /home/horcrux/.config/i3/i3lock-pixelated -l
+bindsym $mod+x exec $HOME/.config/i3/i3lock-pixelated -l
 
 
 # bindsym $mod+x exec --no-startup-id blurlock
@@ -328,7 +328,7 @@ exec --no-startup-id pamac-tray
 exec --no-startup-id clipit
 # exec --no-startup-id blueman-applet
 # exec_always --no-startup-id sbxkb
-exec --no-startup-id start_conky_maia
+exec --no-startup-id $HOME/.config/conky/start_conky_custom
 # exec --no-startup-id start_conky_green
 exec --no-startup-id xautolock -time 10 -locker i3lock-pixelated -l
 exec_always --no-startup-id ff-theme-util
@@ -337,7 +337,7 @@ exec_always --no-startup-id fix_xcursor
 # Calculator
 bindsym $mod+c exec kcalc
 
-# Polybar launch script (located ~/.config/polybar/launch.sh)
+# Polybar launch script (located $HOME/.config/polybar/launch.sh)
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # Theme colors
