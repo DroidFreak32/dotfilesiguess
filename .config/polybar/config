@@ -53,7 +53,7 @@
 ;--------------------------------------------
 
 [bar/base]
-	dpi      = 100
+	dpi      = 75
 	width    = 100%
 	height   = 30
 	offset-x = 0
@@ -64,8 +64,8 @@
 	background = #000f0f0f
 	foreground = ${xrdb:color7}
 
-	border-bottom-size  = 8
-	border-top-size     = 8
+	border-bottom-size  = 4
+	border-top-size     = 4
 
 	border-left-size  = 0
 	border-right-size = 0
@@ -78,37 +78,40 @@
 
 	spacing            = 0
 	padding-left       = 2
-	padding-right      = 4
+	padding-right      = 2
 	module-margin-left = 0
+	module-margin-right = 0
 
 	; font-N = <fontconfig pattern>;<vertical offset>
-	font-0 = Ubuntu Mono:size=10:antialias=true;2
-	font-1 = "UbuntuMono Nerd Font:style=Bold:size=12:antialias=true;2"
-	font-2 = "Font Awesome 5 Brands Regular:style=Regular:size=10:antialias=true;1"
-	font-3 = "Font Awesome 5 Free Solid:style=Solid:size=10:antialias=true;1"
-	font-4 = "Font Awesome 5 Free Regular:style=Regular:size=10:antialias=true;1"
-	font-5 = "Icons:style=Regular:size=10:antialias=true;1"
-	font-7 = "Noto Sans Symbols2:style=Regular;1"
-	font-8 = WunconSiji:size=4;2
+	font-0 = "Ubuntu Mono:Style=Bold:size=14:antialias=true;2"
+	font-1 = "Font Awesome 5 Brands Regular:style=Regular:size=14:antialias=true;1"
+	font-2 = "Font Awesome 5 Free Regular:style=Regular:size=14:antialias=true;1"
+	font-3 = "Font Awesome 5 Free Solid:style=Solid:size=14:antialias=true;1"
+	;font-0 = "UbuntuMono Nerd Font:style=Bold:size=12:antialias=true;2"
+	;font-5 = "Noto Sans Symbols2:style=Regular;1"
+	;font-6 = "Siji:size=4;2"
+	;font-7 = "Icons:style=Regular:size=10:antialias=true;1"
 
 	scroll-up = i3wm-wsnext
 	scroll-down = i3wm-wsprev
 
-	cursor-click = pointer
-	cursor-scroll = ns-resize
+	; cursor-click = pointer
+	; cursor-scroll = ns-resize
 
 	; modules-left = date battery paddinglite previous playpause next music
-	modules-left = date paddinglite cpu ram
+	modules-left = date workspaces cpu ram
 	modules-center  = player-mpris-tail
-	modules-right   = workspaces
+	modules-right   =
 
 	fixed-center = true
 
-	tray-position = left
+	tray-position = right
 	tray-padding = 0
 
 	; wm-restack = i3
 	; override-redirect = false
+
+	monitor = ${env:MONITOR:}
 
 ;--------------------------------------------
 ; modules                                   ;
@@ -213,9 +216,9 @@
 	;	%percentage% (default) - total cpu load
 	;	%percentage-cores% - load percentage for each core
 	;	%percentage-core[1-9]% - load percentage for specific core
-	label            = %percentage%%
-	label-background = ${colors.modules_bg}
-	label-foreground = ${colors.modules_fg}
+	label            = "%percentage%% "
+	label-background = ${colors.cpu_p_bg}
+	label-foreground = ${colors.modules_prefix_fg}
 	label-padding    = 1
 
 	; Available tags:
@@ -224,7 +227,7 @@
 	;	<ramp-load>
 	;	<ramp-coreload>
 	; format = <label> <ramp-coreload>
-	format-prefix = 
+	format-prefix = ""
 	format-prefix-padding    = 1
 	format-prefix-background = ${colors.cpu_p_bg}
 	format-prefix-foreground = ${colors.modules_prefix_fg}
@@ -259,7 +262,7 @@
 	format-prefix 	= " "
 	format-padding 	= 2
 
-	format-background = ${xrdb:color4}
+	format-background = ${xrdb:color12}
 	format-foreground = ${xrdb:color0}
 
 [module/down]
@@ -575,8 +578,8 @@
 	;   %gb_swap_free%
 	;   %gb_swap_used%
 	label            = "%percentage_used%%"
-	label-background = ${colors.modules_bg}
-	label-foreground = ${colors.modules_fg}
+	label-background = ${colors.ram_p_bg}
+	label-foreground = ${colors.modules_prefix_fg}
 	label-padding    = 1
 
 	format-prefix = 
@@ -686,24 +689,24 @@
 	label-focused            = %icon%
 	label-focused-background = ${xrdb:color3}
 	label-focused-foreground = ${xrdb:color0}
-	label-focused-padding    = 3
+	label-focused-padding    = 4
 
 	; unfocused = Inactive workspace on any monitor
-	label-unfocused            = "%name%: %icon%"
+	label-unfocused            = "%icon%"
 	label-unfocused-background = ${colors.modules_bg}
-	label-unfocused-foreground = ${xrdb:color7}
+	label-unfocused-foreground = ${xrdb:color15}
 	label-unfocused-padding    = 3
 
 	; visible = Active workspace on unfocused monitor
-	label-visible            = %name%
+	label-visible            = %icon%
 	label-visible-background = ${colors.modules_bg}
-	label-visible-foreground = ${xrdb:color7}
+	label-visible-foreground = ${xrdb:color15}
 	label-visible-padding    = 3
 
 	; urgent = Workspace with urgency hint set
 	label-urgent            = %icon%
 	label-urgent-background = ${xrdb:color1}
-	label-urgent-foreground = ${xrdb:color7}
+	label-urgent-foreground = ${xrdb:color15}
 	label-urgent-padding    = 3
 
 	; workspace icons
@@ -713,7 +716,7 @@
 	; you must also define a ws-icon-5.
 	ws-icon-0 = "1;"
 	ws-icon-1 = "2;"
-	ws-icon-2 = "3;"
+	ws-icon-2 = "3;"
 	ws-icon-3 = "4;"
 	ws-icon-4 = "5;5"
 	ws-icon-5 = "6;6"
@@ -805,6 +808,7 @@
 	;compositing-background = screen
 	;compositing-foreground = source
 	;compositing-border = over
+	;pseudo-transparency = false
 
 [global/wm]
 	margin-top = 5

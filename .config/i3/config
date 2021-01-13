@@ -34,7 +34,7 @@ bindsym $mod+n border normal
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
-font pango:Ubuntu Mono 12
+font pango:UbuntuMono Nerd Font Mono 14
 
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -45,6 +45,11 @@ font pango:Ubuntu Mono 12
 
 # Use Mouse+$mod to drag floating windows
 floating_modifier $mod
+
+# Load custom resources
+# exec_always xrandr --dpi 129
+# exec --no-startup-id "xrdb -merge $HOME/.Xmonitors"
+# exec --no-startup-id "xrdb -q > $HOME/.Xmonitors.log"
 
 # start a terminal
 bindsym $mod+Return exec konsole
@@ -65,7 +70,7 @@ bindsym $mod+z exec --no-startup-id morc_menu
 ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##
 ################################################################################################
 
-exec --no-startup-id volumeicon
+exec_always --no-startup-id pkill volumeicon ; volumeicon &
 # bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
 # exec --no-startup-id pulseaudio
 #exec --no-startup-id pa-applet
@@ -73,21 +78,73 @@ bindsym $mod+Ctrl+m exec pavucontrol
 
 ################################################################################################
 
+
 # Start Applications
-bindsym $mod+Ctrl+b exec terminal -e 'bmenu'
+bindsym $mod+Ctrl+b exec urxvt -e bmenu
+bindsym $mod+F2 exec subl
 bindsym $mod+F3 exec firefox
 bindsym $mod+F4 exec pcmanfm
 # bindsym $mod+F3 exec ranger
 bindsym $mod+Shift+F4 exec kdesu pcmanfm
 bindsym $mod+F9 exec terminal -e 'mocp'
-bindsym $mod+t exec --no-startup-id pkill compton
-bindsym $mod+Ctrl+t exec --no-startup-id compton -b
+bindsym $mod+t exec --no-startup-id pkill picom
+bindsym $mod+Ctrl+t exec --no-startup-id picom -b
 bindsym $mod+Shift+d --release exec "killall dunst; dunst; exec notify-send 'restart dunst'"
 bindsym Print exec --no-startup-id flameshot full -c -p "$HOME/Pictures/Screenshots" # -r > "$HOME/Pictures/Screenshots/Screenshot_$(date +%Y-%m-%d_%H%M).png"
 bindsym $mod+Print --release exec --no-startup-id i3-scrot -w
 bindsym $mod+Shift+Print --release exec --no-startup-id flameshot gui
 bindsym $mod+Shift+h exec xdg-open /usr/share/doc/manjaro/i3_help.pdf
 bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
+
+# Calculator
+bindsym $mod+c exec kcalc
+
+# Lock screen
+# CREDITS:
+# https://github.com/glindste/xwobf
+# https://github.com/edlanglois/i3lock-extra
+# https://github.com/Kareeeeem/jpglitch
+# https://github.com/pavanjadhaw/betterlockscreen
+# bindsym $mod+x exec $HOME/executable_scripts/i3lock-extra -s -b -g -o "$HOME/Pictures/test.png"
+# bindsym $mod+x exec i3lock-glitch
+bindsym $mod+x exec $HOME/.config/i3/i3lock-pixelated -l
+
+# bindsym $mod+x exec --no-startup-id blurlock
+
+# Autostart applications
+exec_always --no-startup-id /usr/lib/mate-notification-daemon/mate-notification-daemon &
+exec_always --no-startup-id /usr/lib/polkit-kde-authentication-agent-1 &
+exec_always --no-startup-id nitrogen --restore; sleep 1; picom -b &
+exec_always --no-startup-id nm-applet &
+exec_always --no-startup-id xfce4-power-manager &
+exec_always --no-startup-id pamac-tray &
+exec_always --no-startup-id kdeconnect-indicator &
+# clipit needs to run in bg
+exec_always --no-startup-id pkill clipit ; clipit &
+exec_always --no-startup-id blueman-applet &
+exec_always --no-startup-id fix_xcursor &
+exec --no-startup-id $HOME/.config/conky/start_conky_custom
+exec --no-startup-id greenclip daemon &
+# # exec_always --no-startup-id sbxkb
+# # exec --no-startup-id start_conky_green
+# exec --no-startup-id xautolock -time 10 -locker "$HOME/.config/i3/i3lock-pixelated -l"
+# exec_always --no-startup-id ff-theme-util
+
+
+
+# Theme colors
+# class                     border  backgr. text    indic.   child_border
+client.focused              #c5c8c6 #1d1f21 #c5c8c6 #81a2be #81a2be
+client.focused_inactive     #c5c8c6 #1d1f21 #c5c8c6 #5f819d #5f819d
+client.unfocused            #c5c8c6 #1d1f21 #c5c8c6 #5f819d #5f819d
+client.urgent               #c5c8c6 #1d1f21 #c5c8c6 #5f819d #5f819d
+client.placeholder          #c5c8c6 #1d1f21 #c5c8c6 #5f819d #5f819d
+client.background           #1d1f21
+
+############################
+# workspace configurations #
+############################
+
 
 # focus_follows_mouse no
 
@@ -116,7 +173,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # workspace back and forth (with/without active container)
-workspace_auto_back_and_forth yes
+workspace_auto_back_and_forth no
 bindsym $mod+b workspace back_and_forth
 bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_and_forth
 
@@ -156,6 +213,18 @@ bindsym $mod+minus scratchpad show
 bindsym $mod+Ctrl+Right workspace next
 bindsym $mod+Ctrl+Left workspace prev
 
+
+# Multi Monitor
+
+# Resources are set in ~/.Xmonitors (Refer to .xprofile for the script)
+# nVidia driver renames the monitor so I cannot use the actual names.
+# set_from_resource $<name> <resource_name> <fallback>
+
+
+set_from_resource $fallback_monitor i3wm.fallback_monitor eDP1
+set_from_resource $main_monitor i3wm.monitor1 $fallback_monitor
+set_from_resource $additional_monitor i3wm.monitor2 $fallback_monitor
+
 # Workspace names
 # to display names or symbols instead of plain workspace numbers you can use
 # something like: set $ws1 1:mail
@@ -170,6 +239,24 @@ set $ws7 7
 set $ws8 8
 set $ws9 9
 set $ws10 10
+
+# Assign workspaces to specific monitors
+workspace $ws1 output $main_monitor
+workspace $ws2 output $main_monitor
+workspace $ws3 output $main_monitor
+workspace $ws4 output $main_monitor
+workspace $ws5 output $main_monitor
+workspace $ws6 output $additional_monitor
+workspace $ws7 output $additional_monitor
+workspace $ws8 output $additional_monitor
+workspace $ws9 output $additional_monitor
+workspace $ws10 output $additional_monitor
+
+# move focused workspace between monitors - https://unix.stackexchange.com/a/397270
+bindsym $mod+Ctrl+greater move workspace to output right
+bindsym $mod+Ctrl+less move workspace to output left
+bindsym $mod+Ctrl+semicolon move workspace to output up
+bindsym $mod+Ctrl+apostrophe move workspace to output down
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -207,9 +294,11 @@ bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9; workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10; workspace $ws10
 
+
+
 # Open applications on specific workspaces
 assign [class="Sublime_text"] $ws2
-assign [class="Firefox"] $ws3
+assign [class="firefox"] $ws3
 assign [class="dolphin"] $ws4
 assign [class="Pcmanfm"] $ws4
 assign [class="Thunar"] $ws4
@@ -246,6 +335,7 @@ for_window [class="(?i)System-config-printer.py"] floating enable border normal
 for_window [class="Skype"] floating enable border normal
 for_window [class="Thus"] floating enable border normal
 for_window [class="Timeset-gui"] floating enable border normal
+for_window [class="URxvt"] floating enable
 for_window [class="(?i)virtualbox"] floating enable border normal
 for_window [class="Xfburn"] floating enable
 
@@ -253,7 +343,7 @@ for_window [class="Xfburn"] floating enable
 for_window [urgent=latest] focus
 
 # open all floating windows at the center
-for_window [floating] move absolute position center
+# for_window [floating] move absolute position center
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -305,49 +395,9 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 
-# Lock screen
-# CREDITS:
-# https://github.com/glindste/xwobf
-# https://github.com/edlanglois/i3lock-extra
-# https://github.com/Kareeeeem/jpglitch
-# https://github.com/pavanjadhaw/betterlockscreen
-# bindsym $mod+x exec $HOME/executable_scripts/i3lock-extra -s -b -g -o "$HOME/Pictures/test.png"
-# bindsym $mod+x exec i3lock-glitch
-bindsym $mod+x exec $HOME/.config/i3/i3lock-pixelated -l
-
-
-# bindsym $mod+x exec --no-startup-id blurlock
-
-# Autostart applications
-exec_always --no-startup-id /usr/lib/mate-notification-daemon/mate-notification-daemon
-exec --no-startup-id /usr/lib/polkit-kde-authentication-agent-1
-exec --no-startup-id nitrogen --restore; sleep 1; compton -b
-exec --no-startup-id nm-applet
-exec --no-startup-id xfce4-power-manager
-exec --no-startup-id pamac-tray
-exec --no-startup-id clipit
-# exec --no-startup-id blueman-applet
-# exec_always --no-startup-id sbxkb
-exec --no-startup-id $HOME/.config/conky/start_conky_custom
-# exec --no-startup-id start_conky_green
-exec --no-startup-id xautolock -time 10 -locker i3lock-pixelated -l
-exec_always --no-startup-id ff-theme-util
-exec_always --no-startup-id fix_xcursor
-
-# Calculator
-bindsym $mod+c exec kcalc
-
 # Polybar launch script (located $HOME/.config/polybar/launch.sh)
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
-# Theme colors
-# class                     border  backgr. text    indic.   child_border
-client.focused              #c5c8c6 #1d1f21 #c5c8c6 #81a2be #81a2be
-client.focused_inactive     #c5c8c6 #1d1f21 #c5c8c6 #5f819d #5f819d
-client.unfocused            #c5c8c6 #1d1f21 #c5c8c6 #5f819d #5f819d
-client.urgent               #c5c8c6 #1d1f21 #c5c8c6 #5f819d #5f819d
-client.placeholder          #c5c8c6 #1d1f21 #c5c8c6 #5f819d #5f819d
-client.background           #1d1f21
 
 #############################
 ### settings for i3-gaps: ###

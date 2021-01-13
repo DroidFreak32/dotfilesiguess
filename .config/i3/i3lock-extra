@@ -8,25 +8,25 @@ err() { printf '%s\n' "$*" >&2; }
 usage() {
 	while read; do printf '%s\n' "$REPLY"; done <<- EOF
 		Usage: i3lock-extra [flags]
-		    Flags:
-		        --help|-h                       Show this message.
-		        --umask|-u                      Set umask.
-		        --tmpdir|-d                     Directory to store temporary files in.
-		                                          This should not be accessible by other users!
-		        --image_file|-i                 Lock screen with an image.
-		        --screenshot|-s                 Lock screen with a screenshot of your current workspace.
+			Flags:
+				--help|-h                       Show this message.
+				--umask|-u                      Set umask.
+				--tmpdir|-d                     Directory to store temporary files in.
+												  This should not be accessible by other users!
+				--image_file|-i                 Lock screen with an image.
+				--screenshot|-s                 Lock screen with a screenshot of your current workspace.
 
-		        # Modifiers (apply to both screenshots and specified images):
-		        --overlay-image|-o              Overlay another image over the main one.
-		                                          Gets applied after all other modifiers.
-		        --grayscale|-g                  Make the image grayscale.
-		        --pixelize|-p                   Pixelize the image.
-		        --pixelize-scale|-P             Sets the number by which the image is resized down and up
-		                                          again to achieve the pixelize effect. For example, 4 means
-		                                          that it will be resized to 1/4 of the original and blown back up.
-		        --blur|-b                       Blur the image.
-		        --paint                         Apply a paint effect to the image.
-		                                          Best combined with pixelize.
+				# Modifiers (apply to both screenshots and specified images):
+				--overlay-image|-o              Overlay another image over the main one.
+												  Gets applied after all other modifiers.
+				--grayscale|-g                  Make the image grayscale.
+				--pixelize|-p                   Pixelize the image.
+				--pixelize-scale|-P             Sets the number by which the image is resized down and up
+												  again to achieve the pixelize effect. For example, 4 means
+												  that it will be resized to 1/4 of the original and blown back up.
+				--blur|-b                       Blur the image.
+				--paint                         Apply a paint effect to the image.
+												  Best combined with pixelize.
 	EOF
 }
 
@@ -55,7 +55,7 @@ image_prepare() {
 	fi
 
 	if (( f_paint )); then
-		convert_args+=( -spread 10 -paint 5 )
+		convert_args+=( -spread 5 -paint 2 )
 	fi
 
 	if [[ "$convert_args" ]]; then
@@ -64,8 +64,32 @@ image_prepare() {
 	fi
 
 	if [[ "$overlay_image" ]]; then
-		convert -gravity center -composite -matte "$image_file" "$overlay_image" "$cfg_tmpdir/lockbg.png"
+		tmp_file="$cfg_tmpdir/lockbg_tmp.png"
+
+		rectangles=" "
+		SR=$(xrandr --query | grep ' connected' | grep -o '[0-9][0-9]*x[0-9][0-9]*[^ ]*')
+		for RES in $SR; do
+			SRA=(${RES//[x+]/ })
+			CX=$((${SRA[2]} + 25))
+			CY=$((${SRA[1]} - 30))
+			rectangles+="rectangle $CX,$CY $((CX+300)),$((CY-80)) "
+		done
+
+		############################################################################################# 
+		# Checks for dual monitors                                                                  #
+		# WARNING: Works only if they are 1920x1080 & in a side-by-side configuration on Xrandr.    #
+		#############################################################################################
+		MONITORS=($(xrandr --query | grep -w connected | awk '{print $1}'))
+		if [ "${#MONITORS[@]}" -eq 2 ]; then
+			# (1920-256 [Width of 1st screen - Width of lock icon])/2 = 832 -> X coordinate of the 1st lock icon.
+			# 832 + 1920 = 2752 -> X coordinate of the 2nd lock icon
+			# (1080-256)/2 = 412 -> Y coordinate of both lock icons.
+			composite -geometry +832+412 "$overlay_image" "$image_file" "$tmp_file" && composite -geometry +2752+412 "$overlay_image" "$tmp_file" "$cfg_tmpdir/lockbg.png"
+		else
+			convert -gravity center -composite -matte "$image_file" "$overlay_image" "$cfg_tmpdir/lockbg.png"
+		fi
 		image_file="$cfg_tmpdir/lockbg.png"
+		# convert "$image_file" -draw "fill rgba(0, 0, 0, 0.8) $rectangles" "$image_file"
 	fi
 }
 
@@ -122,13 +146,16 @@ main() {
 	fi
 
 	image_prepare
+	echo "${i3lock_args[@]}"
 
 	if (( f_secloop )); then
-		until i3lock -t -i "$image_file" "${i3lock_args[@]}" ; do
+		until i3lock -t -i SDL_VIDEO_FULLSCREEN_HEAD=0 "$image_file" "${i3lock_args[@]}" ; do
 			true
+			rm "$image_file"
 		done
 	else
 		i3lock -t -i "$image_file" "${i3lock_args[@]}"
+		rm "$image_file"
 	fi
 }
 

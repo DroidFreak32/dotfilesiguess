@@ -5,7 +5,7 @@ Description = Lock screen when going to sleep/suspend
 User=%I
 Type=forking
 Environment=DISPLAY=:0
-ExecStart=/home/horcrux/.config/i3/i3lock-pixelated --lock
+ExecStart=$HOME/.config/i3/i3lock-pixelated --lock
 TimeoutSec=infinity
 
 [Install]

@@ -66,7 +66,7 @@ plugins=(
   colored-man-pages
 )
 
-fpath+=('/home/horcrux/.npm-packages/lib/node_modules/pure-prompt/functions')
+fpath+=('~/.npm-packages/lib/node_modules/pure-prompt/functions')
 
 
 source $ZSH/oh-my-zsh.sh

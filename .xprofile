@@ -1,4 +1,25 @@
 if [ "$XDG_CURRENT_DESKTOP" = "i3" ]; then
-    export QT_QPA_PLATFORMTHEME="qt5ct"
-    export QT_PLUGIN_PATH=$HOME/.kde4/lib/kde4/plugins/:/usr/lib/kde4/plugins/
+	export QT_QPA_PLATFORMTHEME="qt5ct"
+	export QT_PLUGIN_PATH=$HOME/.kde4/lib/kde4/plugins/:/usr/lib/kde4/plugins/
+
+	# Setup dual monitors in .Xmonitors
+	unset
+	MONITORS=($(xrandr --query | grep -w connected | awk '{print $1}'))
+	if [ "${#MONITORS[@]}" -eq 2 ]; then
+		export MONITOR1="${MONITORS[0]}"
+		export MONITOR2="${MONITORS[1]}"
+		# xrandr --output "$MONITOR1" --primary --mode 1920x1080 --pos 0x0 --rotate normal --output "$MONITOR2" --mode 1920x1080 --pos 1920x0 --rotate normal 
+		# Replace by autorandr
+		autorandr -c
+
+		echo "*monitor1: $MONITOR1" > $HOME/.Xmonitors
+		echo "*monitor2: $MONITOR2" >> $HOME/.Xmonitors
+		xrdb -m $HOME/.Xmonitors
+		xrdb -q > $HOME/x.log
+		echo "$(date)" >> x.log
+		xrandr --dpi 129
+	else
+		echo "*fallback_monitor: ${MONITORS[0]}" > $HOME/.Xmonitors
+	fi
+
 fi

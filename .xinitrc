@@ -1,8 +1,9 @@
 #!/bin/sh
-#
+# 
 # ~/.xinitrc
 #
 # Executed by startx (run your window manager from here)
+# xinitrc / xprofile -> xsessionrc
 
 userresources=$HOME/.Xresources
 usermodmap=$HOME/.Xmodmap
@@ -62,6 +63,5 @@ get_session(){
 
 	echo "dbus-launch ${dbus_args[*]}"
 }
-export XDG_CURRENT_DESKTOP=KDE
+export DUMBO="fasf"
 exec $(get_session)
-xset r rate 600 25

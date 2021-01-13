@@ -1,0 +1,16 @@
+if [[ -d "$HOME/bin" ]] ; then
+    export PATH="$HOME/bin:$PATH"
+fi
+/usr/lib/mate-notification-daemon/mate-notification-daemon &
+/usr/lib/polkit-kde-authentication-agent-1 &
+nitrogen --restore; sleep 1; picom -b
+nm-applet &
+xfce4-power-manager &
+pamac-tray &
+kdeconnect-indicator &
+clipit &
+blueman-applet &
+volumeicon &
+$HOME/.config/conky/start_conky_custom &
+fix_xcursor &
+$HOME/.config/polybar/launch.sh &
