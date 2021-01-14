@@ -17,7 +17,7 @@ if [ "$XDG_CURRENT_DESKTOP" = "i3" ]; then
 		xrdb -m $HOME/.Xmonitors
 		xrdb -q > $HOME/x.log
 		echo "$(date)" >> x.log
-		xrandr --dpi 129
+#		xrandr --dpi 129
 	else
 		echo "*fallback_monitor: ${MONITORS[0]}" > $HOME/.Xmonitors
 	fi

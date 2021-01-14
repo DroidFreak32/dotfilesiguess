@@ -84,7 +84,10 @@ image_prepare() {
 			# (1920-256 [Width of 1st screen - Width of lock icon])/2 = 832 -> X coordinate of the 1st lock icon.
 			# 832 + 1920 = 2752 -> X coordinate of the 2nd lock icon
 			# (1080-256)/2 = 412 -> Y coordinate of both lock icons.
-			composite -geometry +832+412 "$overlay_image" "$image_file" "$tmp_file" && composite -geometry +2752+412 "$overlay_image" "$tmp_file" "$cfg_tmpdir/lockbg.png"
+			# Side-by-side
+			# composite -geometry +832+412 "$overlay_image" "$image_file" "$tmp_file" && composite -geometry +2752+412 "$overlay_image" "$tmp_file" "$cfg_tmpdir/lockbg.png"
+			# up&down
+			composite -geometry +832+412 "$overlay_image" "$image_file" "$tmp_file" && composite -geometry +832+1492 "$overlay_image" "$tmp_file" "$cfg_tmpdir/lockbg.png"
 		else
 			convert -gravity center -composite -matte "$image_file" "$overlay_image" "$cfg_tmpdir/lockbg.png"
 		fi
